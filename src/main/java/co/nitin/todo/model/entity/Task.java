@@ -4,22 +4,25 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity(name = "task")
 public class Task {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	private String name;
-	private String description;
+	private String details;
 	
 	@Column(name = "created_at")
 	private Date createdAt;
-	private User userId;		
+
+	@OneToOne
+	private User user;
+
+	@OneToOne
 	private TaskList taskList;
 	
 	public Long getId() {
@@ -32,11 +35,11 @@ public class Task {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getDescription() {
-		return description;
+	public String getDetails() {
+		return details;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDetails(String details) {
+		this.details = details;
 	}
 	public Date getCreatedAt() {
 		return createdAt;
@@ -45,10 +48,10 @@ public class Task {
 		this.createdAt = createdAt;
 	}
 	public User getUserId() {
-		return userId;
+		return user;
 	}
 	public void setUserId(User userId) {
-		this.userId = userId;
+		this.user = userId;
 	}
 	public TaskList getTaskList() {
 		return taskList;
