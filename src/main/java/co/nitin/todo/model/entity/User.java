@@ -4,12 +4,15 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity(name = "user")
 public class User {
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long userId;
 	
@@ -17,7 +20,7 @@ public class User {
 	private String username;
 	private String password;
 	private String email;
-	private Integer mobile;
+	private Long mobile;
 	
 	@Column(name = "created_at")
 	private Date createdAt;
@@ -53,10 +56,10 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Integer getMobile() {
+	public Long getMobile() {
 		return mobile;
 	}
-	public void setMobile(Integer mobile) {
+	public void setMobile(Long mobile) {
 		this.mobile = mobile;
 	}
 	public Date getCreatedAt() {

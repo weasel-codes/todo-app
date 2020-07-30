@@ -11,6 +11,8 @@ import co.nitin.todo.dao.repo.UserRepo;
 import co.nitin.todo.model.entity.Task;
 import co.nitin.todo.model.entity.TaskList;
 import co.nitin.todo.model.entity.User;
+import co.nitin.todo.model.req.TaskListCreateReq;
+import co.nitin.todo.model.response.TaskListCreateResp;
 
 @Service
 public class TaskCrudService {
@@ -35,5 +37,14 @@ public class TaskCrudService {
 
 	public List<User> fetchAllUser() {
 		return this.userRepo.findAll();
+	}
+	
+	public TaskListCreateResp createTaskList(TaskListCreateReq req){
+		TaskList list = new TaskList();
+		list.setName(req.getTaskName());
+		list.setDescription(req.getTaskDetails());
+		list = this.taskListRepo.saveAndFlush(list);
+		
+		return new TaskListCreateResp(list.getId(), list.getName(), list.getDescription());
 	}
 }
