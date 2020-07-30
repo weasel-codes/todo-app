@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 @Entity(name = "task_list")
 public class TaskList {
 
@@ -20,8 +23,13 @@ public class TaskList {
 	private String description;
 	
 	@Column(name = "created_at")
+	@CreationTimestamp
 	private Date createdAt;
-		
+	
+	@Column(name = "updated_at")
+	@UpdateTimestamp
+	private Date updatedAt;
+
 	public TaskList() { //needed for orm and injection
 		super();
 	}
@@ -46,5 +54,9 @@ public class TaskList {
 
 	public Date getCreatedAt() {
 		return createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
 	}
 }

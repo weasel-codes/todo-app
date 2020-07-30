@@ -8,6 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 @Entity(name = "user")
 public class User {
 
@@ -27,9 +30,11 @@ public class User {
 	private Long mobile;
 	
 	@Column(name = "created_at")
+	@CreationTimestamp
 	private Date createdAt;
 	
 	@Column(name = "updated_at")
+	@UpdateTimestamp
 	private Date updatedAt;
 
 	public User() { //needed for orm and injection

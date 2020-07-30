@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.nitin.todo.constants.APIResponse;
 import co.nitin.todo.dao.repo.TaskListRepo;
 import co.nitin.todo.dao.repo.TaskRepo;
 import co.nitin.todo.dao.repo.UserRepo;
@@ -15,8 +16,9 @@ import co.nitin.todo.model.entity.TaskList;
 import co.nitin.todo.model.entity.User;
 import co.nitin.todo.model.req.TaskCreateReq;
 import co.nitin.todo.model.req.TaskListCreateReq;
+import co.nitin.todo.model.response.BaseResponse;
 import co.nitin.todo.model.response.TaskCreateRes;
-import co.nitin.todo.model.response.TaskListCreateResp;
+import co.nitin.todo.model.response.TaskListCreateRes;
 
 @Service
 public class TaskCrudService {
@@ -46,11 +48,11 @@ public class TaskCrudService {
 		return this.userRepo.findAll();
 	}
 	
-	public TaskListCreateResp createTaskList(TaskListCreateReq req){
+	public TaskListCreateRes createTaskList(TaskListCreateReq req){
 		TaskList list = new TaskList(req.getTaskName(), req.getTaskDetails());
 		list = this.taskListRepo.saveAndFlush(list);
 		
-		TaskListCreateResp res = new TaskListCreateResp(list.getId(), list.getName(), list.getDescription());
+		TaskListCreateRes res = new TaskListCreateRes(list.getId(), list.getName(), list.getDescription());
 		logger.info("[createTaskList] : Returning response : " + res);
 		return res;
 	}
@@ -73,5 +75,9 @@ public class TaskCrudService {
 		
 		logger.info("[createTask] : Returning response : " + res);
 		return res;
+	}
+	
+	private BaseResponse buildFailureResponse(String message){
+		return new BaseResponse<List<TaskList>>(APIResponse.FAILURE_CODE, message, null);
 	}
 }

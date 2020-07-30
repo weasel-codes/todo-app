@@ -9,6 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 @Entity(name = "task")
 public class Task {
 
@@ -27,9 +30,11 @@ public class Task {
 	private TaskList taskList;
 		
 	@Column(name = "created_at")
+	@CreationTimestamp
 	private Date createdAt;
-
+	
 	@Column(name = "updated_at")
+	@UpdateTimestamp
 	private Date updatedAt;
 
 	public Task() { //needed for orm and injection

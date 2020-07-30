@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import co.nitin.todo.controller.TaskCRUDController;
 import co.nitin.todo.model.req.TaskCreateReq;
 import co.nitin.todo.model.req.TaskListCreateReq;
-import co.nitin.todo.model.response.TaskListCreateResp;
+import co.nitin.todo.model.response.TaskListCreateRes;
 import co.nitin.todo.service.TaskCrudService;
 
 @ExtendWith(SpringExtension.class)

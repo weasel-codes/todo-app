@@ -1,12 +1,12 @@
 package co.nitin.todo.model.response;
 
-public class TaskListCreateResp {
+public class TaskListCreateRes {
 	
 	private Long id;
 	private String name;
 	private String description;
 	
-	public TaskListCreateResp(Long id, String name, String description) {
+	public TaskListCreateRes(Long id, String name, String description) {
 		super();
 		this.id = id;
 		this.name = name;
