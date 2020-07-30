@@ -16,34 +16,35 @@ public class TaskList {
 	private Long id;
 
 	private String name;
+	
 	private String description;
 	
 	@Column(name = "created_at")
 	private Date createdAt;
-	
+		
+	public TaskList() { //needed for orm and injection
+		super();
+	}
+
+	public TaskList(String name, String description) { 
+		super();
+		this.name = name;
+		this.description = description;
+	}
+
 	public Long getId() {
 		return id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
-		this.name = name;
-	}
+
 	public String getDescription() {
 		return description;
 	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
+
 	public Date getCreatedAt() {
 		return createdAt;
-	}
-
-	@Override
-	public String toString() {
-		return "TaskList [id=" + id + ", name=" + name + ", description=" + description + ", createdAt=" + createdAt
-				+ "]";
 	}
 }

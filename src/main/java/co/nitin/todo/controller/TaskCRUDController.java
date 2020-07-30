@@ -15,13 +15,13 @@ import co.nitin.todo.constants.APIConstants;
 import co.nitin.todo.model.entity.TaskList;
 import co.nitin.todo.model.req.TaskCreateReq;
 import co.nitin.todo.model.req.TaskListCreateReq;
+import co.nitin.todo.model.response.TaskCreateRes;
 import co.nitin.todo.model.response.TaskListCreateResp;
 import co.nitin.todo.service.TaskCrudService;
 
 /**
- * @Controller and @ResponseBody : these both are equivalent too @RestController
+ * @Controller and @ResponseBody : these both are equivalent to @RestController
  * @author weasel
- *
  */
 @RestController
 public class TaskCRUDController {
@@ -43,7 +43,7 @@ public class TaskCRUDController {
 		return this.service.fetchAllTaskList();
 	}
 	
-	@PostMapping(path = APIConstants.TASK_LIST_CREATE)
+	@PostMapping(APIConstants.TASK_LIST_CREATE)
 	public TaskListCreateResp createTaskList(@RequestBody TaskListCreateReq req) {
 		
 		logger.info("[createTaskList] : Request received : " + req);
@@ -52,13 +52,21 @@ public class TaskCRUDController {
 		return resp;
 	}
 
-	@RequestMapping(path = APIConstants.TASK_CREATE, method = RequestMethod.POST)
-	public TaskCreateReq insertTask(@RequestBody TaskCreateReq req) {
-		
-		return req;
+	@PostMapping(APIConstants.TASK_CREATE)
+	public TaskCreateRes insertTask(@RequestBody TaskCreateReq req) {
+
+		logger.info("[insertTask] : request received : " + req);
+		TaskCreateRes res = null;
+		try {
+			res = this.service.createTask(req);
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			e.printStackTrace();
+		}
+		return res;
 	}
 
-	@RequestMapping(path = APIConstants.TASK_UPDATE, method = RequestMethod.POST)
+	@PostMapping(path = APIConstants.TASK_UPDATE)	
 	public boolean updateTask(@RequestBody Object object) {
 		return true;
 	}
