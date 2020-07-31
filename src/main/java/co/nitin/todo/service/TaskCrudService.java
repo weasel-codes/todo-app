@@ -20,10 +20,12 @@ import co.nitin.todo.model.entity.User;
 import co.nitin.todo.model.req.BaseRequest;
 import co.nitin.todo.model.req.TaskCreateReq;
 import co.nitin.todo.model.req.TaskListCreateReq;
+import co.nitin.todo.model.req.TaskListUpdateReq;
 import co.nitin.todo.model.req.TaskUpdateReq;
 import co.nitin.todo.model.response.BaseResponse;
 import co.nitin.todo.model.response.TaskCreateRes;
 import co.nitin.todo.model.response.TaskListCreateRes;
+import co.nitin.todo.model.response.TaskListUpdateRes;
 import co.nitin.todo.model.response.TaskUpdateRes;
 
 @Service
@@ -105,8 +107,18 @@ public class TaskCrudService {
 	}
 
 	@Transactional
-	public TaskUpdateRes updateTaskList() {
-		return null;
+	public TaskListUpdateRes updateTaskList(BaseRequest<TaskListUpdateReq> req) {
+		
+		TaskList list = this.taskListRepo.getOne(req.getRequest().getTaskId());
+		logger.info("[updateTaskList] : Task List before update : " + list);
+		list.setName(req.getRequest().getTaskName());
+		list.setDescription(req.getRequest().getTaskDetails());
+
+		this.taskListRepo.save(list);
+		logger.info("[updateTaskList] : Task List after update : " + list);
+		
+		TaskListUpdateRes res = new TaskListUpdateRes(list.getName(), list.getDescription(), list.getId());
+		return res;
 	}
 
 	private BaseResponse buildFailureResponse(String message){

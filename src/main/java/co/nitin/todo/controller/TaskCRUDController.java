@@ -123,7 +123,8 @@ public class TaskCRUDController {
 		try {
 
 			logger.info("[updateTaskList] : request received : " + req);
-			
+			TaskListUpdateRes res = this.service.updateTaskList(req);
+			response = this.buildResponse(APIResponse.SUCCESS_MESSAGE, res);
 			logger.info("[updateTaskList] : Returning response : " + response);
 
 		} catch (Exception e) {			
