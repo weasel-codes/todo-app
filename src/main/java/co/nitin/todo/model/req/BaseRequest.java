@@ -18,4 +18,11 @@ public class BaseRequest<T> {
 	public T getRequest() {
 		return request;
 	}
+
+	@Override
+	public String toString() {
+		return "BaseRequest [mobile=" + mobile + ", request=" + request + "]";
+	}
+	
+	
 }

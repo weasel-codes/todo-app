@@ -2,8 +2,6 @@ package co.nitin.todo.service;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,15 +34,12 @@ public class TaskCrudService {
 	private TaskRepo taskRepo;
 	private TaskListRepo taskListRepo;
 	private UserRepo userRepo;
-	private EntityManager em;
 	
 	@Autowired
-	public TaskCrudService(TaskRepo taskRepo, TaskListRepo taskListRepo, UserRepo userRepo, EntityManager em){
+	public TaskCrudService(TaskRepo taskRepo, TaskListRepo taskListRepo, UserRepo userRepo){
 		this.taskRepo = taskRepo;
 		this.taskListRepo = taskListRepo;
-		this.userRepo = userRepo;
-		this.em = em;
-	}
+		this.userRepo = userRepo;	}
 	
 	public List<Task> fetchAllTask() {
 		return this.taskRepo.findAll();
@@ -109,10 +104,10 @@ public class TaskCrudService {
 	@Transactional
 	public TaskListUpdateRes updateTaskList(BaseRequest<TaskListUpdateReq> req) {
 		
-		TaskList list = this.taskListRepo.getOne(req.getRequest().getTaskId());
+		TaskList list = this.taskListRepo.getOne(req.getRequest().getTaskListId());
 		logger.info("[updateTaskList] : Task List before update : " + list);
-		list.setName(req.getRequest().getTaskName());
-		list.setDescription(req.getRequest().getTaskDetails());
+		list.setName(req.getRequest().getTaskListName());
+		list.setDescription(req.getRequest().getTaskListDetails());
 
 		this.taskListRepo.save(list);
 		logger.info("[updateTaskList] : Task List after update : " + list);

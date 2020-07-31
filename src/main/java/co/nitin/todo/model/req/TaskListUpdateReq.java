@@ -13,15 +13,23 @@ public class TaskListUpdateReq {
 		this.taskListId = taskId;
 	}
 
-	public String getTaskName() {
+	public String getTaskListName() {
 		return taskListName;
 	}
 
-	public String getTaskDetails() {
+	public String getTaskListDetails() {
 		return taskListDetails;
 	}
 
-	public Long getTaskId() {
+	public Long getTaskListId() {
 		return taskListId;
 	}
+
+	@Override
+	public String toString() {
+		return "TaskListUpdateReq [taskListName=" + taskListName + ", taskListDetails=" + taskListDetails
+				+ ", taskListId=" + taskListId + "]";
+	}
+	
+	
 }

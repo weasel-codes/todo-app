@@ -30,4 +30,12 @@ public class TaskUpdateReq {
 	public Long getTaskId() {
 		return taskId;
 	}
+
+	@Override
+	public String toString() {
+		return "TaskUpdateReq [taskName=" + taskName + ", taskDetails=" + taskDetails + ", taskId=" + taskId
+				+ ", taskListId=" + taskListId + "]";
+	}
+	
+	
 }

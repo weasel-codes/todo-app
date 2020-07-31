@@ -23,5 +23,13 @@ public class BaseResponse<T> {
 	
 	public T getResponse() {
 		return response;
-	}	
+	}
+
+	@Override
+	public String toString() {
+		return "BaseResponse [respCode=" + respCode + ", respMessage=" + respMessage + ", response=" + response + "]";
+	}
+	
+	
 }
+

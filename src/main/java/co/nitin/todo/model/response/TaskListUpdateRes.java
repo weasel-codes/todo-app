@@ -24,4 +24,12 @@ public class TaskListUpdateRes {
 	public Long getTaskId() {
 		return taskListId;
 	}
+
+	@Override
+	public String toString() {
+		return "TaskListUpdateRes [taskListName=" + taskListName + ", taskListDetails=" + taskListDetails
+				+ ", taskListId=" + taskListId + "]";
+	}
+	
+	
 }
