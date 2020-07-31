@@ -2,10 +2,13 @@ package co.nitin.todo.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.nitin.todo.constants.APIResponse;
 import co.nitin.todo.dao.repo.TaskListRepo;
@@ -14,11 +17,14 @@ import co.nitin.todo.dao.repo.UserRepo;
 import co.nitin.todo.model.entity.Task;
 import co.nitin.todo.model.entity.TaskList;
 import co.nitin.todo.model.entity.User;
+import co.nitin.todo.model.req.BaseRequest;
 import co.nitin.todo.model.req.TaskCreateReq;
 import co.nitin.todo.model.req.TaskListCreateReq;
+import co.nitin.todo.model.req.TaskUpdateReq;
 import co.nitin.todo.model.response.BaseResponse;
 import co.nitin.todo.model.response.TaskCreateRes;
 import co.nitin.todo.model.response.TaskListCreateRes;
+import co.nitin.todo.model.response.TaskUpdateRes;
 
 @Service
 public class TaskCrudService {
@@ -28,12 +34,14 @@ public class TaskCrudService {
 	private TaskRepo taskRepo;
 	private TaskListRepo taskListRepo;
 	private UserRepo userRepo;
+	private EntityManager em;
 	
 	@Autowired
-	public TaskCrudService(TaskRepo taskRepo, TaskListRepo taskListRepo, UserRepo userRepo){
+	public TaskCrudService(TaskRepo taskRepo, TaskListRepo taskListRepo, UserRepo userRepo, EntityManager em){
 		this.taskRepo = taskRepo;
 		this.taskListRepo = taskListRepo;
 		this.userRepo = userRepo;
+		this.em = em;
 	}
 	
 	public List<Task> fetchAllTask() {
@@ -77,6 +85,30 @@ public class TaskCrudService {
 		return res;
 	}
 	
+	@Transactional
+	public TaskUpdateRes updateTask(BaseRequest<TaskUpdateReq> req) {
+		
+		Task task = this.taskRepo.getOne(req.getRequest().getTaskId());
+		logger.info("[updateTask] : Task before update : " + task);
+
+		task.setDetails(req.getRequest().getTaskDetails());
+		task.setName(req.getRequest().getTaskName());
+		if(req.getRequest().getTaskListId() != task.getTaskList().getId()) {
+			task.setTaskList(this.taskListRepo.getOne(req.getRequest().getTaskListId()));
+		}
+		
+		task = this.taskRepo.save(task);
+		logger.info("[updateTask] : Task after update : " + task);
+
+		TaskUpdateRes res = new TaskUpdateRes(task.getId(), task.getName(), task.getDetails(), task.getTaskList().getId());
+		return res;
+	}
+
+	@Transactional
+	public TaskUpdateRes updateTaskList() {
+		return null;
+	}
+
 	private BaseResponse buildFailureResponse(String message){
 		return new BaseResponse<List<TaskList>>(APIResponse.FAILURE_CODE, message, null);
 	}

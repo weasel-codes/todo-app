@@ -105,10 +105,11 @@ public class TaskCRUDController {
 		try {
 
 			logger.info("[updateTask] : request received : " + req);
+			TaskUpdateRes res = this.service.updateTask(req);
+			response = this.buildResponse(APIResponse.SUCCESS_MESSAGE, res);
+			logger.info("[updateTask] : Returning response : " + res);
 			
-			logger.info("[updateTask] : Returning response : " + response);
-
-		} catch (Exception e) {			
+		} catch (Exception e) {
 			logger.error("[updateTask] : " + e.getMessage());
 			e.printStackTrace();
 			response = this.buildResponse(e.getMessage(), null);
@@ -116,7 +117,7 @@ public class TaskCRUDController {
 		return response;
 	}
 
-	@PostMapping(path = APIConstants.TASK_UPDATE)	
+	@PostMapping(path = APIConstants.TASK_LIST_UPDATE)	
 	public BaseResponse<TaskListUpdateRes> updateTaskList(@RequestBody BaseRequest<TaskListUpdateReq> req) {
 		BaseResponse<TaskListUpdateRes> response = null;
 		try {

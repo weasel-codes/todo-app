@@ -2,17 +2,23 @@ package co.nitin.todo.model.response;
 
 public class TaskUpdateRes {
 
+	private Long taskId;
 	private String taskName;
 	private String taskDetails;
-	private Long taskId;
+	private Long taskListId;
 	
-	public TaskUpdateRes(String taskName, String taskDetails, Long taskId) {
+	public TaskUpdateRes( Long taskId, String taskName, String taskDetails, Long taskListId) {
 		super();
+		this.taskId = taskId;
 		this.taskName = taskName;
 		this.taskDetails = taskDetails;
-		this.taskId = taskId;
+		this.taskListId = taskListId;
 	}
 	
+	public Long getTaskId() {
+		return taskId;
+	}
+
 	public String getTaskName() {
 		return taskName;
 	}
@@ -21,7 +27,8 @@ public class TaskUpdateRes {
 		return taskDetails;
 	}
 
-	public Long getTaskId() {
-		return taskId;
+	public Long getTaskListId() {
+		return taskListId;
 	}
+
 }
