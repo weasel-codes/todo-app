@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import co.nitin.todo.constants.APIResponse;
 import co.nitin.todo.dao.repo.TaskListRepo;
 import co.nitin.todo.dao.repo.TaskRepo;
 import co.nitin.todo.dao.repo.UserRepo;
@@ -17,13 +16,8 @@ import co.nitin.todo.model.entity.TaskList;
 import co.nitin.todo.model.entity.User;
 import co.nitin.todo.model.req.BaseRequest;
 import co.nitin.todo.model.req.TaskCreateReq;
-import co.nitin.todo.model.req.TaskListCreateReq;
-import co.nitin.todo.model.req.TaskListUpdateReq;
 import co.nitin.todo.model.req.TaskUpdateReq;
-import co.nitin.todo.model.response.BaseResponse;
 import co.nitin.todo.model.response.TaskCreateRes;
-import co.nitin.todo.model.response.TaskListCreateRes;
-import co.nitin.todo.model.response.TaskListUpdateRes;
 import co.nitin.todo.model.response.TaskUpdateRes;
 
 @Service
@@ -39,27 +33,15 @@ public class TaskCrudService {
 	public TaskCrudService(TaskRepo taskRepo, TaskListRepo taskListRepo, UserRepo userRepo){
 		this.taskRepo = taskRepo;
 		this.taskListRepo = taskListRepo;
-		this.userRepo = userRepo;	}
+		this.userRepo = userRepo;	
+	}
 	
 	public List<Task> fetchAllTask() {
 		return this.taskRepo.findAll();
 	}
 	
-	public List<TaskList> fetchAllTaskList() {
-		return this.taskListRepo.findAll();
-	}
-
 	public List<User> fetchAllUser() {
 		return this.userRepo.findAll();
-	}
-	
-	public TaskListCreateRes createTaskList(TaskListCreateReq req){
-		TaskList list = new TaskList(req.getTaskName(), req.getTaskDetails());
-		list = this.taskListRepo.saveAndFlush(list);
-		
-		TaskListCreateRes res = new TaskListCreateRes(list.getId(), list.getName(), list.getDescription());
-		logger.info("[createTaskList] : Returning response : " + res);
-		return res;
 	}
 	
 	public TaskCreateRes createTask(TaskCreateReq req) throws Exception {
@@ -101,22 +83,4 @@ public class TaskCrudService {
 		return res;
 	}
 
-	@Transactional
-	public TaskListUpdateRes updateTaskList(BaseRequest<TaskListUpdateReq> req) {
-		
-		TaskList list = this.taskListRepo.getOne(req.getRequest().getTaskListId());
-		logger.info("[updateTaskList] : Task List before update : " + list);
-		list.setName(req.getRequest().getTaskListName());
-		list.setDescription(req.getRequest().getTaskListDetails());
-
-		this.taskListRepo.save(list);
-		logger.info("[updateTaskList] : Task List after update : " + list);
-		
-		TaskListUpdateRes res = new TaskListUpdateRes(list.getName(), list.getDescription(), list.getId());
-		return res;
-	}
-
-	private BaseResponse buildFailureResponse(String message){
-		return new BaseResponse<List<TaskList>>(APIResponse.FAILURE_CODE, message, null);
-	}
 }
