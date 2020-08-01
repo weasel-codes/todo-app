@@ -20,16 +20,16 @@ import co.nitin.todo.model.req.TaskListUpdateReq;
 import co.nitin.todo.model.response.BaseResponse;
 import co.nitin.todo.model.response.TaskListCreateRes;
 import co.nitin.todo.model.response.TaskListUpdateRes;
-import co.nitin.todo.service.TaskiListCRUDService;
+import co.nitin.todo.service.TaskListCRUDService;
 
 @RestController
 public class TaskListController {
 
 	private static final Logger logger = LoggerFactory.getLogger(TaskListController.class);
-	private TaskiListCRUDService service;
+	private TaskListCRUDService service;
 	
 	@Autowired
-	public TaskListController(TaskiListCRUDService service) {
+	public TaskListController(TaskListCRUDService service) {
 		this.service = service;
 	}
 	

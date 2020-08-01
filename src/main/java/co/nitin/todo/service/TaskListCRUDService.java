@@ -19,17 +19,17 @@ import co.nitin.todo.model.response.TaskListCreateRes;
 import co.nitin.todo.model.response.TaskListUpdateRes;
 
 @Service
-public class TaskiListCRUDService {
+public class TaskListCRUDService {
 
-	private static final Logger logger = LoggerFactory.getLogger(TaskiListCRUDService.class);
+	private static final Logger logger = LoggerFactory.getLogger(TaskListCRUDService.class);
 	
 	private TaskListRepo taskListRepo;
 	private UserRepo userRepo;
 	
 	@Autowired
-	public TaskiListCRUDService(TaskListRepo taskListRepo, UserRepo userRepo){
+	public TaskListCRUDService(TaskListRepo taskListRepo, UserRepo userRepo){
 		this.taskListRepo = taskListRepo;
-		this.userRepo = userRepo;	
+		this.userRepo = userRepo;
 	}
 	
 	public List<TaskList> fetchAllTaskList() {

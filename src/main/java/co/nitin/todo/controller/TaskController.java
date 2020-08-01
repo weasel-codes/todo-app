@@ -22,13 +22,13 @@ import co.nitin.todo.service.TaskCrudService;
  * @author weasel
  */
 @RestController
-public class TaskCRUDController {
+public class TaskController {
 
-	private static final Logger logger = LoggerFactory.getLogger(TaskCRUDController.class);
+	private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
 	private TaskCrudService service;
 	
 	@Autowired
-	public TaskCRUDController(TaskCrudService service) {
+	public TaskController(TaskCrudService service) {
 		this.service = service;
 	}
 

@@ -18,14 +18,14 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import co.nitin.todo.controller.TaskCRUDController;
+import co.nitin.todo.controller.TaskController;
 import co.nitin.todo.model.req.TaskCreateReq;
 import co.nitin.todo.model.req.TaskListCreateReq;
 import co.nitin.todo.model.response.TaskListCreateRes;
 import co.nitin.todo.service.TaskCrudService;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(TaskCRUDController.class)
+@WebMvcTest(TaskController.class)
 public class TaskCRUDControllerTest {
 
 	private static final Logger logger = LoggerFactory.getLogger(TaskCRUDControllerTest.class);
