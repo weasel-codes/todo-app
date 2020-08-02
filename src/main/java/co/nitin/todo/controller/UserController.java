@@ -12,7 +12,6 @@ import co.nitin.todo.constants.APIResponse;
 import co.nitin.todo.model.req.BaseRequest;
 import co.nitin.todo.model.req.UserSignup;
 import co.nitin.todo.model.response.BaseResponse;
-import co.nitin.todo.model.response.TaskCreateRes;
 import co.nitin.todo.service.UserService;
 import co.nitin.todo.utils.APIResponseBuilder;
 
@@ -30,6 +29,11 @@ public class UserController {
 		this.userService = userService;
 	}
 
+	/**
+	 * User Signs up > account is created > Need to login to use it
+	 * @param req
+	 * @return
+	 */
 	@PostMapping(path = "/signup")
 	public BaseResponse<Boolean> userSignup(@RequestParam BaseRequest<UserSignup> req) {
 		
@@ -49,16 +53,18 @@ public class UserController {
 		return response;
 	}
 	
+	/**
+	 * Will generate an oauthtoken that can be used for authentication in APIs
+	 * @return
+	 */
 	@PostMapping(path = "/login")
 	public BaseResponse<Boolean> userLogin() {
 		BaseResponse<Boolean> response = null;
 		try {
 
-			logger.info("[userSignup] : request received : " + req);
-			TaskCreateRes resp = null;
-			resp = this.service.createTask(req);
-			response = APIResponseBuilder.buildResponse(APIResponse.SUCCESS_MESSAGE, true);		
-			logger.info("[userSignup] : Returning response : " + response);
+//			logger.info("[userSignup] : request received : " + req);
+//			response = APIResponseBuilder.buildResponse(APIResponse.SUCCESS_MESSAGE, true);		
+//			logger.info("[userSignup] : Returning response : " + response);
 
 		} catch (Exception e) {			
 			logger.error("[insertTask] : " + e.getMessage());
