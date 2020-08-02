@@ -16,6 +16,7 @@ import co.nitin.todo.model.response.BaseResponse;
 import co.nitin.todo.model.response.TaskCreateRes;
 import co.nitin.todo.model.response.TaskUpdateRes;
 import co.nitin.todo.service.TaskCrudService;
+import co.nitin.todo.utils.APIResponseBuilder;
 
 /**
  * @Controller and @ResponseBody : these both are equivalent to @RestController
@@ -41,13 +42,13 @@ public class TaskController {
 			logger.info("[insertTask] : request received : " + req);
 			TaskCreateRes resp = null;
 			resp = this.service.createTask(req);
-			response = this.buildResponse(APIResponse.SUCCESS_MESSAGE, resp);		
+			response = APIResponseBuilder.buildResponse(APIResponse.SUCCESS_MESSAGE, resp);		
 			logger.info("[insertTask] : Returning response : " + response);
 
 		} catch (Exception e) {			
 			logger.error("[insertTask] : " + e.getMessage());
 			e.printStackTrace();
-			response = this.buildResponse(e.getMessage(), null);
+			response = APIResponseBuilder.buildResponse(e.getMessage(), null);
 		}
 		return response;
 	}
@@ -59,21 +60,14 @@ public class TaskController {
 
 			logger.info("[updateTask] : request received : " + req);
 			TaskUpdateRes res = this.service.updateTask(req);
-			response = this.buildResponse(APIResponse.SUCCESS_MESSAGE, res);
+			response = APIResponseBuilder.buildResponse(APIResponse.SUCCESS_MESSAGE, res);
 			logger.info("[updateTask] : Returning response : " + res);
 			
 		} catch (Exception e) {
 			logger.error("[updateTask] : " + e.getMessage());
 			e.printStackTrace();
-			response = this.buildResponse(e.getMessage(), null);
+			response = APIResponseBuilder.buildResponse(e.getMessage(), null);
 		}
 		return response;
-	}
-
-	private <T> BaseResponse<T> buildResponse(String message, T response){
-		if (response == null)
-			return new BaseResponse<T>(APIResponse.FAILURE_CODE, message, response);
-		else 
-			return new BaseResponse<T>(APIResponse.SUCCESS_CODE, message, response);			
 	}
 }

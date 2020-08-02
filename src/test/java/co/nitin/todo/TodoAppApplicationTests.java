@@ -19,7 +19,7 @@ class TodoAppApplicationTests {
 	@Test
 	void contextLoads() {
 		logger.info("No of TaskList object returned : " + this.listService.fetchAllTaskList().size());
-		logger.info("No of User object returned : " + this.service.fetchAllUser().size());
+//		logger.info("No of User object returned : " + this.service.fetchAllUser().size());
 		logger.info("No of Task object returned : " + this.service.fetchAllTask().size());
 	}
 

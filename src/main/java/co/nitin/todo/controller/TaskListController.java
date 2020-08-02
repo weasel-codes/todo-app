@@ -21,6 +21,7 @@ import co.nitin.todo.model.response.BaseResponse;
 import co.nitin.todo.model.response.TaskListCreateRes;
 import co.nitin.todo.model.response.TaskListUpdateRes;
 import co.nitin.todo.service.TaskListCRUDService;
+import co.nitin.todo.utils.APIResponseBuilder;
 
 @RestController
 public class TaskListController {
@@ -41,13 +42,13 @@ public class TaskListController {
 
 			logger.info("Fetch all task");
 			List<TaskList> list = this.service.fetchAllTaskList();
-			response = this.buildResponse(APIResponse.SUCCESS_MESSAGE, list);
+			response = APIResponseBuilder.buildResponse(APIResponse.SUCCESS_MESSAGE, list);
 			logger.info("[getTaskList] : Returning List : " + response);
 
 		} catch (Exception e) {	
 			logger.error("[getTaskList] : " + e.getMessage());
 			e.printStackTrace();
-			response = this.buildResponse(e.getMessage(), null);
+			response = APIResponseBuilder.buildResponse(e.getMessage(), null);
 		}
 		return response;
 	}
@@ -60,13 +61,13 @@ public class TaskListController {
 
 			logger.info("[createTaskList] : Request received : " + req);
 			TaskListCreateRes resp = this.service.createTaskList(req);
-			response = this.buildResponse(APIResponse.SUCCESS_MESSAGE, resp);		
+			response = APIResponseBuilder.buildResponse(APIResponse.SUCCESS_MESSAGE, resp);		
 			logger.info("[createTaskList] : Returning response : " + response);
 
 		} catch (Exception e) {			
 			logger.error("[createTaskList] : " + e.getMessage());
 			e.printStackTrace();
-			response = this.buildResponse(e.getMessage(), null);
+			response = APIResponseBuilder.buildResponse(e.getMessage(), null);
 		}
 		return response;
 	}
@@ -78,22 +79,15 @@ public class TaskListController {
 
 			logger.info("[updateTaskList] : request received : " + req);
 			TaskListUpdateRes res = this.service.updateTaskList(req);
-			response = this.buildResponse(APIResponse.SUCCESS_MESSAGE, res);
+			response = APIResponseBuilder.buildResponse(APIResponse.SUCCESS_MESSAGE, res);
 			logger.info("[updateTaskList] : Returning response : " + response);
 
 		} catch (Exception e) {			
 			logger.error("[updateTaskList] : " + e.getMessage());
 			e.printStackTrace();
-			response = this.buildResponse(e.getMessage(), null);
+			response = APIResponseBuilder.buildResponse(e.getMessage(), null);
 		}
 		return response;
-	}
-
-	private <T> BaseResponse<T> buildResponse(String message, T response){
-		if (response == null)
-			return new BaseResponse<T>(APIResponse.FAILURE_CODE, message, response);
-		else 
-			return new BaseResponse<T>(APIResponse.SUCCESS_CODE, message, response);			
 	}
 	
 }

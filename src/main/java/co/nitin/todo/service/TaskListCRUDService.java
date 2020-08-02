@@ -9,9 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.nitin.todo.dao.repo.TaskListRepo;
-import co.nitin.todo.dao.repo.UserRepo;
 import co.nitin.todo.model.entity.TaskList;
-import co.nitin.todo.model.entity.User;
 import co.nitin.todo.model.req.BaseRequest;
 import co.nitin.todo.model.req.TaskListCreateReq;
 import co.nitin.todo.model.req.TaskListUpdateReq;
@@ -24,22 +22,16 @@ public class TaskListCRUDService {
 	private static final Logger logger = LoggerFactory.getLogger(TaskListCRUDService.class);
 	
 	private TaskListRepo taskListRepo;
-	private UserRepo userRepo;
 	
 	@Autowired
-	public TaskListCRUDService(TaskListRepo taskListRepo, UserRepo userRepo){
+	public TaskListCRUDService(TaskListRepo taskListRepo){
 		this.taskListRepo = taskListRepo;
-		this.userRepo = userRepo;
 	}
 	
 	public List<TaskList> fetchAllTaskList() {
 		return this.taskListRepo.findAll();
 	}
-	
-	public List<User> fetchAllUser() {
-		return this.userRepo.findAll();
-	}
-	
+		
 	public TaskListCreateRes createTaskList(TaskListCreateReq req){
 		TaskList list = new TaskList(req.getTaskName(), req.getTaskDetails());
 		list = this.taskListRepo.saveAndFlush(list);

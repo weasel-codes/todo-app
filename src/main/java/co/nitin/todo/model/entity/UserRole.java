@@ -4,29 +4,39 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  * Unique combination of user_id and role
  * @author weasel
  *
  */
-@Entity(name = "user_roles")
+@Entity
+@Table(name = "user_roles")
 public class UserRole {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
+	
+	@OneToOne
 	private User user;
+
 	private String role;
 	
-	public UserRole(int id, User user, String role) {
+	public UserRole() {
+		super();
+	}
+
+	public UserRole(Integer id, User user, String role) {
 		super();
 		this.id = id;
 		this.user = user;
 		this.role = role;
 	}
 	
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
