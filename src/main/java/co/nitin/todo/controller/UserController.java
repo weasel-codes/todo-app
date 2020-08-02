@@ -22,12 +22,12 @@ public class UserController {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
-	private UserService UserService;
+	private UserService userService;
 	
 	@Autowired	
 	public UserController(co.nitin.todo.service.UserService userService) {
 		super();
-		UserService = userService;
+		this.userService = userService;
 	}
 
 	@PostMapping(path = "/signup")
@@ -37,8 +37,7 @@ public class UserController {
 		try {
 
 			logger.info("[userSignup] : request received : " + req);
-			TaskCreateRes resp = null;
-			resp = this.service.createTask(req);
+			this.userService.createUser(req);
 			response = APIResponseBuilder.buildResponse(APIResponse.SUCCESS_MESSAGE, true);		
 			logger.info("[userSignup] : Returning response : " + response);
 

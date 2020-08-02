@@ -29,9 +29,8 @@ public class UserRole {
 		super();
 	}
 
-	public UserRole(Integer id, User user, String role) {
+	public UserRole(User user, String role) {
 		super();
-		this.id = id;
 		this.user = user;
 		this.role = role;
 	}
