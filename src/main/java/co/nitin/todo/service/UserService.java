@@ -18,20 +18,20 @@ public class UserService {
 
 	private UserRepo userRepo;
 	private UserRoleRepo userRoleRepo;
-	private PasswordEncoder pbkdf2PasswordEncoder;
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public UserService(UserRepo userRepo, UserRoleRepo userRoleRepo, PasswordEncoder pbkdf2PasswordEncoder) {
+	public UserService(UserRepo userRepo, UserRoleRepo userRoleRepo, PasswordEncoder passwordEncoder) {
 		super();
 		this.userRepo = userRepo;
 		this.userRoleRepo = userRoleRepo;
-		this.pbkdf2PasswordEncoder = pbkdf2PasswordEncoder;
+		this.passwordEncoder = passwordEncoder;
 	}
 	
 	@Transactional
 	public boolean createUser(BaseRequest<UserSignup> req) {
 
-		String encodedPassword = this.pbkdf2PasswordEncoder.encode(req.getRequest().getPassword());
+		String encodedPassword = this.passwordEncoder.encode(req.getRequest().getPassword());
 		User newUser = new User(req.getRequest().getName(), req.getRequest().getUsername(), 
 								encodedPassword, req.getRequest().getEmail(), 
 								req.getRequest().getMobile());

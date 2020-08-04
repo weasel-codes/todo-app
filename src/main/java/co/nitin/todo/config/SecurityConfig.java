@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
@@ -26,16 +25,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 	
 	@Autowired private UserDetailsService userDetailsService;
-	@Autowired private PasswordEncoder pbkdf2PasswordEncoder;
+	@Autowired private PasswordEncoder passwordEncoder;
 	
 	//two beans needed everyuwhere
 	
-	@Bean(name = "pbkdf2PasswordEncoder")
-	public PasswordEncoder passwordEncoder() {
+	@Bean(name = "passwordEncoder")
+    public PasswordEncoder bCryptPasswordEncoder() {
 		return new Pbkdf2PasswordEncoder(	SecurityConstants.PBKDF2_HASH_SECRET, 
-											SecurityConstants.PBKDF2_HASH_ITERATION, 
-											SecurityConstants.PBKDF2_HASH_WIDTH);
-	}
+				SecurityConstants.PBKDF2_HASH_ITERATION, 
+				SecurityConstants.PBKDF2_HASH_WIDTH);
+    }
 
 	@Bean(name = "userDetailsService")
 	public UserDetailsService userDetailsService() {
@@ -46,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	//main two methods to start from here for authentication and authorization
 	@Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(pbkdf2PasswordEncoder);
+        auth.userDetailsService(userDetailsService).passwordEncoder(this.passwordEncoder);
     }
     
     @Override
@@ -54,13 +53,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     	logger.info("[configure] : HttpSecurity");
     	 http.cors().and().csrf().disable().authorizeRequests()
          .antMatchers(HttpMethod.POST, APIConstants.SIGN_UP_URL).permitAll()
-//         .antMatchers(HttpMethod.POST, APIConstants.LOGIN_URL).permitAll()
          .anyRequest().authenticated()
          .and()
-         .addFilter(new JWTAuthenticationFilterConfig(authenticationManager()))
-         .addFilter(new JWTAuthorizationFilterConfig(authenticationManager()))
-         // this disables session creation on Spring Security
-         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+         .addFilter(new JWTAuthenticationFilterConfig(this.passwordEncoder, this.userDetailsService))
+         .addFilter(new JWTAuthorizationFilterConfig(authenticationManager()));
+//         // this disables session creation on Spring Security
+//         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
 }

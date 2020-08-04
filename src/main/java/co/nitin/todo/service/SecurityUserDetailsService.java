@@ -25,15 +25,12 @@ public class SecurityUserDetailsService implements UserDetailsService{
 	
 	public SecurityUserDetailsService() {
 		super();
-		logger.info("[SecurityUserDetailsService] : default constructor");
-		logger.info("[SecurityUserDetailsService] : UserRepo : " + this.userRepo);
-		logger.info("[SecurityUserDetailsService] : UserRoleRepo : " + this.userRoleRepo);
 	}
 
 	@Autowired
 	public SecurityUserDetailsService(UserRepo userRepo, UserRoleRepo userRoleRepo) {
 		super();
-		logger.info("[SecurityUserDetailsService] : constructor for setting userrepo and userrolerepo");
+		logger.info("[SecurityUserDetailsService] : constructor for setting user repo and userrolerepo");
 		this.userRepo = userRepo;
 		this.userRoleRepo = userRoleRepo;
 	}
@@ -41,14 +38,14 @@ public class SecurityUserDetailsService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		logger.info("[loadUserByUsername] : returns UserDetails");
-		logger.info("[loadUserByUsername] : UserRepo : " + this.userRepo);
-		logger.info("[loadUserByUsername] : UserRoleRepo : " + this.userRoleRepo);
+		logger.info("[loadUserByUsername] : returns UserDetails from User and UserRoles");
 		
 		User user = this.userRepo.findByUsername(username);
-		if(user==null) throw new UsernameNotFoundException("User not registered");
-			
+		if(user==null) throw new UsernameNotFoundException("User not registered");			
 		List<String> roles = this.userRoleRepo.findRoleByUserMobile(user.getMobile());
+		logger.info("[loadUserByUsername] : User" + user);	
+		logger.info("[loadUserByUsername] : UserRoles" + roles);
+
 		return new SecurityUserDetails(user, roles);
 	}
 

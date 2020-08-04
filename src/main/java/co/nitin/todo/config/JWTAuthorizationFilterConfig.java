@@ -35,6 +35,7 @@ public class JWTAuthorizationFilterConfig extends BasicAuthenticationFilter {
 
     	logger.info("[doFilterInternal] : Request : " + req.getHeaderNames());
 		String header = req.getHeader(SecurityConstants.AUTH_HEADER_STRING);
+    	logger.info("[doFilterInternal] : Header @@@@@@@@@@@@@@ : " + header);
 
 		if (header == null || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
 			logger.info("[doFilterInternal] : empty header");

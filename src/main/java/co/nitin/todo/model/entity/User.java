@@ -83,4 +83,11 @@ public class User {
 	public Date getUpdatedAt() {
 		return updatedAt;
 	}
+
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", name=" + name + ", username=" + username + ", password=" + password
+				+ ", email=" + email + ", mobile=" + mobile + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+				+ "]";
+	}
 }
