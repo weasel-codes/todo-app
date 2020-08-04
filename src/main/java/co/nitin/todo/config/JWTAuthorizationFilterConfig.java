@@ -2,7 +2,6 @@ package co.nitin.todo.config;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -45,11 +44,7 @@ public class JWTAuthorizationFilterConfig extends BasicAuthenticationFilter {
 
 		UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-		chain.doFilter(req, res);
-		
-    	logger.info("[doFilterInternal] : Request : " + req.getReader().lines()
-    			.collect(Collectors.joining(System.lineSeparator())));
-
+		chain.doFilter(req, res);		
 	}
 
 	/**

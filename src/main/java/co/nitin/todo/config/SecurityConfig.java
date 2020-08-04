@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
@@ -28,7 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired private PasswordEncoder passwordEncoder;
 	
 	//two beans needed everyuwhere
-	
 	@Bean(name = "passwordEncoder")
     public PasswordEncoder bCryptPasswordEncoder() {
 		return new Pbkdf2PasswordEncoder(	SecurityConstants.PBKDF2_HASH_SECRET, 
@@ -56,9 +56,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          .anyRequest().authenticated()
          .and()
          .addFilter(new JWTAuthenticationFilterConfig(this.passwordEncoder, this.userDetailsService))
-         .addFilter(new JWTAuthorizationFilterConfig(authenticationManager()));
-//         // this disables session creation on Spring Security
-//         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+         .addFilter(new JWTAuthorizationFilterConfig(authenticationManager()))
+         // this disables session creation on Spring Security
+         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
 }
