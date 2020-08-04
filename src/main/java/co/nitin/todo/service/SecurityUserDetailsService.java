@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,6 +30,7 @@ public class SecurityUserDetailsService implements UserDetailsService{
 		logger.info("[SecurityUserDetailsService] : UserRoleRepo : " + this.userRoleRepo);
 	}
 
+	@Autowired
 	public SecurityUserDetailsService(UserRepo userRepo, UserRoleRepo userRoleRepo) {
 		super();
 		logger.info("[SecurityUserDetailsService] : constructor for setting userrepo and userrolerepo");

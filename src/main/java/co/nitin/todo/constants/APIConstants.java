@@ -9,6 +9,6 @@ public class APIConstants {
 	public static final String TASK_CREATE = "task/create";
 	public static final String TASK_UPDATE = "task/update";
 
-    public static final String SIGN_UP_URL = "/user/sign-up";
+    public static final String SIGN_UP_URL = "/user/signup";
     public static final String LOGIN_URL = "/user/login";
 }

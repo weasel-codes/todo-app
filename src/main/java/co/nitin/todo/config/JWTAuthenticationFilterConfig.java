@@ -60,8 +60,11 @@ public class JWTAuthenticationFilterConfig extends UsernamePasswordAuthenticatio
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 
+    	logger.info("[attemptAuthentication] : returns UsernamePasswordAuthenticationToken in Authentication");
+    	
 		try {
 			User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
+			logger.info("[attemptAuthentication] : fetched USer : " + user);
 			UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(),
 																								user.getPassword(), 
 																								new ArrayList<>());
@@ -76,13 +79,17 @@ public class JWTAuthenticationFilterConfig extends UsernamePasswordAuthenticatio
 	@Override
 	protected void successfulAuthentication(HttpServletRequest req, HttpServletResponse res, 
 											FilterChain chain, Authentication auth) throws IOException, ServletException {
-		
-		String token = JWT.create()
-				.withSubject(((User) auth.getPrincipal()).getUsername())
-				.withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
-				.sign(Algorithm.HMAC512(SecurityConstants.SECRET.getBytes()));
 
-		res.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
+    	logger.info("[successfulAuthentication] : Generates token JWT");
+		String token = JWT.create()
+				.withSubject(((User) auth.getPrincipal()).getUsername()) //"sub" claim
+				.withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME)) //"exp" claim
+				.sign(Algorithm.HMAC512(SecurityConstants.SECRET.getBytes()));
+		
+    	logger.info("[successfulAuthentication] : Generated token JWT for header " 
+				+ SecurityConstants.AUTH_HEADER_STRING +  " : " + token);
+
+		res.addHeader(SecurityConstants.AUTH_HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
 	}
 
 }

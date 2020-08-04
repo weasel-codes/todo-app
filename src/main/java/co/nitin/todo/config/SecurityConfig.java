@@ -28,6 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired private UserDetailsService userDetailsService;
 	@Autowired private PasswordEncoder pbkdf2PasswordEncoder;
 	
+	//two beans needed everyuwhere
+	
 	@Bean(name = "pbkdf2PasswordEncoder")
 	public PasswordEncoder passwordEncoder() {
 		return new Pbkdf2PasswordEncoder(	SecurityConstants.PBKDF2_HASH_SECRET, 
@@ -41,8 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	
-	//main two methods to start from here
-    @Override
+	//main two methods to start from here for authentication and authorization
+	@Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(pbkdf2PasswordEncoder);
     }
@@ -52,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     	logger.info("[configure] : HttpSecurity");
     	 http.cors().and().csrf().disable().authorizeRequests()
          .antMatchers(HttpMethod.POST, APIConstants.SIGN_UP_URL).permitAll()
-         .antMatchers(HttpMethod.POST, APIConstants.LOGIN_URL).permitAll()
+//         .antMatchers(HttpMethod.POST, APIConstants.LOGIN_URL).permitAll()
          .anyRequest().authenticated()
          .and()
          .addFilter(new JWTAuthenticationFilterConfig(authenticationManager()))
