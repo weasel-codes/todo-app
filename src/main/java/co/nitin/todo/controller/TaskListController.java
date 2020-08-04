@@ -1,19 +1,14 @@
 package co.nitin.todo.controller;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.nitin.todo.constants.APIConstants;
 import co.nitin.todo.constants.APIResponse;
-import co.nitin.todo.model.entity.TaskList;
 import co.nitin.todo.model.req.BaseRequest;
 import co.nitin.todo.model.req.TaskListCreateReq;
 import co.nitin.todo.model.req.TaskListUpdateReq;
@@ -32,25 +27,6 @@ public class TaskListController {
 	@Autowired
 	public TaskListController(TaskListCRUDService service) {
 		this.service = service;
-	}
-	
-	@RequestMapping(path = APIConstants.TASK_LIST_FETCH_ALL, method = RequestMethod.GET)
-	public BaseResponse<List<TaskList>> getTaskList() {
-		
-		BaseResponse<List<TaskList>> response = null;
-		try {
-
-			logger.info("Fetch all task");
-			List<TaskList> list = this.service.fetchAllTaskList();
-			response = APIResponseBuilder.buildResponse(APIResponse.SUCCESS_MESSAGE, list);
-			logger.info("[getTaskList] : Returning List : " + response);
-
-		} catch (Exception e) {	
-			logger.error("[getTaskList] : " + e.getMessage());
-			e.printStackTrace();
-			response = APIResponseBuilder.buildResponse(e.getMessage(), null);
-		}
-		return response;
 	}
 	
 	@PostMapping(APIConstants.TASK_LIST_CREATE)

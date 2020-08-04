@@ -36,8 +36,8 @@ public class TaskCrudService {
 		this.userRepo = userRepo;	
 	}
 	
-	public List<Task> fetchAllTask() {
-		return this.taskRepo.findAll();
+	public List<Task> fetchAllTaskByUserMobile(Long mobile) {
+		return this.taskRepo.findByUserMobile(mobile);
 	}
 	
 	public TaskCreateRes createTask(TaskCreateReq req) throws Exception {

@@ -1,7 +1,5 @@
 package co.nitin.todo.service;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +25,7 @@ public class TaskListCRUDService {
 	public TaskListCRUDService(TaskListRepo taskListRepo){
 		this.taskListRepo = taskListRepo;
 	}
-	
-	public List<TaskList> fetchAllTaskList() {
-		return this.taskListRepo.findAll();
-	}
-		
+			
 	public TaskListCreateRes createTaskList(TaskListCreateReq req){
 		TaskList list = new TaskList(req.getTaskName(), req.getTaskDetails());
 		list = this.taskListRepo.saveAndFlush(list);
